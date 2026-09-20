@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Indonesia's Road to Independence — Interactive Timeline</title>
+<meta name="description" content="An interactive digital museum timeline of Indonesia's journey to independence, 1908 to present.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- progress bar -->
+<div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- header -->
+<header class="site-header" id="siteHeader">
+  <div class="header-in">
+    <a href="#top" class="brand">
+      <span class="brand-line1">INDONESIA</span>
+      <span class="brand-line2">Road to Independence</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#timeline">Timeline</a>
+      <a href="#about">About</a>
+      <button type="button" id="myTimelineBtn" class="nav-btn">My Timeline <span id="bookmarkCount" class="badge">0</span></button>
+    </nav>
+    <button type="button" id="searchToggle" class="icon-btn" aria-label="Open search" aria-expanded="false" aria-controls="searchPanel">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- search panel -->
+<div class="search-panel" id="searchPanel" role="dialog" aria-modal="true" aria-label="Search the timeline" hidden>
+  <div class="search-panel-in">
+    <label class="search-label" for="searchInput">Search by year, title, category or keyword</label>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="e.g. 1945, Sukarno, Proclamation, Occupation…" autocomplete="off">
+      <button type="button" id="searchClose" class="icon-btn" aria-label="Close search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <ul class="search-results" id="searchResults"></ul>
+  </div>
+</div>
+
+<!-- my timeline panel -->
+<div class="mytimeline-panel" id="myTimelinePanel" role="dialog" aria-modal="true" aria-label="My saved timeline" hidden>
+  <div class="mytimeline-in">
+    <div class="mytimeline-head">
+      <h2>My Timeline</h2>
+      <button type="button" id="myTimelineClose" class="icon-btn" aria-label="Close my timeline">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <p class="mytimeline-hint">Events you bookmark are saved on this device.</p>
+    <ul class="mytimeline-list" id="myTimelineList"></ul>
+    <p class="mytimeline-empty" id="myTimelineEmpty">No events saved yet. Use the bookmark icon on any event to add it here.</p>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- LANDING -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" style="background-image:url('assets/hero-bg.jpg')"></div>
+    <div class="hero-grain" aria-hidden="true"></div>
+    <div class="hero-veil"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">1908 — 1949</p>
+      <h1 class="hero-title">Indonesia's Road<br>to Independence</h1>
+      <p class="hero-subtitle">Nationalism, Occupation, Revolution and Sovereignty<br>1908 — 1949</p>
+      <p class="hero-intro">Indonesia's independence was the result of a long historical process. From the growth of organized nationalism and youth movements to Japanese occupation, the proclamation of independence, revolution, diplomacy and the transfer of sovereignty, this timeline explores the major turning points in Indonesia's journey.</p>
+      <a href="#timeline" class="btn btn-primary" id="exploreBtn">Explore the Timeline</a>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>Scroll</span>
+      <div class="scroll-line"><div class="scroll-dot"></div></div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-section" id="timeline">
+
+    <div class="timeline-intro wrap">
+      <p class="section-eyebrow">The Timeline</p>
+      <h2 class="section-title">A Long Historical Process</h2>
+      <p class="section-lede">Thirteen turning points, from the first organized nationalist society to the continuing work of nation-building. Filter by theme, search by year, or scroll through in order.</p>
+    </div>
+
+    <!-- filters -->
+    <div class="filter-bar wrap" role="group" aria-label="Filter events by category">
+      <button type="button" class="filter-chip is-active" data-filter="all">All</button>
+      <button type="button" class="filter-chip" data-filter="Nationalism">Nationalism</button>
+      <button type="button" class="filter-chip" data-filter="Occupation">Occupation</button>
+      <button type="button" class="filter-chip" data-filter="Independence">Independence</button>
+      <button type="button" class="filter-chip" data-filter="Legacy">Legacy</button>
+    </div>
+
+    <div class="section-intro-grid wrap" id="sectionIntroGrid" aria-label="Timeline introductions"></div>
+
+    <div class="timeline-layout wrap">
+
+      <!-- desktop sticky rail nav -->
+      <nav class="rail-nav" id="railNav" aria-label="Jump to event"></nav>
+
+      <!-- events -->
+      <div class="events-col" id="eventsCol">
+        <div class="event-counter" aria-hidden="true"><span id="counterCurrent">01</span> / <span id="counterTotal">13</span></div>
+        <!-- events injected by script.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="wrap about-in">
+      <p class="section-eyebrow">About the Project</p>
+      <h2 class="section-title serif-xl">The Road to Independence</h2>
+      <div class="about-cols">
+        <p>Indonesia's independence was not a single event but the outcome of a long historical process. It began with the rise of organized nationalism and youth movements in the early twentieth century, groups that gradually encouraged people of different ethnic and regional backgrounds to imagine themselves as one Indonesian nation.</p>
+        <p>The Japanese occupation during the Second World War disrupted Dutch colonial rule and created new, if difficult, opportunities for Indonesian leaders to organize politically. The Proclamation of Independence on 17 August 1945 transformed that movement into the foundation of a republic — one that then had to be defended through revolution, armed struggle and diplomacy.</p>
+        <p>The transfer of sovereignty in 1949 marked the formal end of Dutch colonial rule, but it was not the end of the story. Independence continued to shape Indonesia's political identity, institutions and nation-building in the decades that followed.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- footer -->
+<footer class="site-footer">
+  <div class="wrap footer-in">
+    <div>
+      <p class="footer-title">Indonesia's Road to Independence</p>
+      <p class="footer-range">1908 — 1949</p>
+      <p class="footer-tag">An interactive historical timeline</p>
+    </div>
+    <p class="footer-note">Historical images are used for educational/project purposes. Image ownership and licensing should be verified before public or commercial publication.</p>
+  </div>
+</footer>
+
+<!-- EVENT MODAL -->
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" id="modal">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Close event details">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-media">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-body">
+      <p class="modal-category" id="modalCategory"></p>
+      <p class="modal-date" id="modalDate"></p>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-desc" id="modalDesc"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Read source</a>
+      <button type="button" class="bookmark-btn" id="modalBookmark" aria-pressed="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <span>Save to My Timeline</span>
+      </button>
+      <div class="modal-nav">
+        <button type="button" id="modalPrev" class="btn btn-ghost">← Previous</button>
+        <button type="button" id="modalNext" class="btn btn-ghost">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
